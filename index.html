@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Persona AI Studio | Photorealistic Virtual Avatars</title>
+    <meta name="description" content="Experience the next generation of conversational AI. Interact with photorealistic virtual human personas powered by local Llama 3.2.">
+    <link rel="stylesheet" href="styles.css">
+    <!-- FontAwesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <!-- Navigation -->
+    <nav id="navbar">
+        <div class="container">
+            <a href="#" class="logo">
+                <i class="fa-solid fa-dna"></i> Persona AI
+            </a>
+            <div class="nav-links">
+                <a href="#features">Features</a>
+                <a href="#personas">Personas</a>
+                <a href="app.html" class="btn btn-primary" style="padding: 0.5rem 1.5rem;">Launch Studio</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <video autoplay loop muted playsinline class="hero-video">
+            <source src="avatar.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+        <div class="hero-overlay"></div>
+        <div class="container">
+            <div class="hero-content">
+                <h1>Face-to-Face with <br><span class="gradient-text">General Intelligence</span></h1>
+                <p>Interact with photorealistic virtual avatars powered by a state-of-the-art local Llama 3.2 engine. Ultra-low latency, maximum privacy, and breathtaking realism.</p>
+                <div class="hero-cta">
+                    <a href="app.html" class="btn btn-primary">Try Persona AI Free</a>
+                    <a href="#features" class="btn btn-secondary">Discover How It Works</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="features container">
+        <div style="text-align: center; max-width: 800px; margin: 0 auto;">
+            <h2>Next-Generation Technology</h2>
+            <p>We built Persona AI from the ground up to provide the most fluid, natural conversational experience possible through a seamless cloud-to-local bridge.</p>
+        </div>
+
+        <div class="features-grid">
+            <div class="feature-card glass">
+                <div class="feature-icon" style="color: var(--neon-green);"><i class="fa-brands fa-python"></i></div>
+                <h3>Powered by Python</h3>
+                <p>Working fully using powerful Python libraries for robust, local AI inference and seamless data handling.</p>
+            </div>
+            
+            <div class="feature-card glass">
+                <div class="feature-icon" style="color: var(--neon-cyan);"><i class="fa-solid fa-globe"></i></div>
+                <h3>Custom Domain Access</h3>
+                <p>Securely accessible from anywhere in the world with a dedicated domain name via our reverse tunneling architecture.</p>
+            </div>
+
+            <div class="feature-card glass">
+                <div class="feature-icon" style="color: #FF00E5;"><i class="fa-solid fa-database"></i></div>
+                <h3>Database Management</h3>
+                <p>Fully integrated, real-time database management using Firebase to keep your chat history and states perfectly synced.</p>
+            </div>
+
+            <div class="feature-card glass">
+                <div class="feature-icon" style="color: #FFD700;"><i class="fa-solid fa-handshake-angle"></i></div>
+                <h3>Helpful Assistant for Anyone</h3>
+                <p>Designed to be an accessible, highly capable virtual guide to help anyone, anywhere, with any problem.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Personas Section -->
+    <section id="personas" class="personas">
+        <div class="container">
+            <div style="text-align: center; max-width: 800px; margin: 0 auto;">
+                <h2>Meet Your Personas</h2>
+                <p>Choose from our specialized roster of highly capable virtual humans, each fine-tuned for specific domains of knowledge.</p>
+            </div>
+
+            <div class="persona-grid">
+                <div class="persona-card">
+                    <div class="persona-avatar">👨‍🏫</div>
+                    <h3>English Tutor</h3>
+                    <p>Master the English language with a patient, conversational guide who corrects pronunciation and grammar.</p>
+                </div>
+                
+                <div class="persona-card">
+                    <div class="persona-avatar">🎓</div>
+                    <h3>Admission Counselor</h3>
+                    <p>Get expert advice on university applications, essay writing, and career planning.</p>
+                </div>
+
+                <div class="persona-card">
+                    <div class="persona-avatar">🩺</div>
+                    <h3>Medical Assistant</h3>
+                    <p>Discuss symptoms, learn about medical conditions, and get general health and wellness information.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <a href="#" class="logo" style="justify-content: center; margin-bottom: 1rem;">
+                <i class="fa-solid fa-dna"></i> Persona AI Studio
+            </a>
+            <p>Bringing intelligence face-to-face.</p>
+            <div class="social-links">
+                <a href="#"><i class="fa-brands fa-github"></i></a>
+                <a href="#"><i class="fa-brands fa-twitter"></i></a>
+                <a href="#"><i class="fa-brands fa-discord"></i></a>
+            </div>
+            <p style="font-size: 0.9rem;">&copy; 2026 Persona AI Studio. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Navbar scroll effect
+        window.addEventListener('scroll', () => {
+            const nav = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                nav.style.background = 'rgba(10, 13, 20, 0.9)';
+                nav.style.backdropFilter = 'blur(10px)';
+                nav.style.borderBottom = '1px solid rgba(0, 255, 136, 0.1)';
+            } else {
+                nav.style.background = 'transparent';
+                nav.style.backdropFilter = 'none';
+                nav.style.borderBottom = 'none';
+            }
+        });
+    </script>
+</body>
+</html>

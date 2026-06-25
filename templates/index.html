@@ -1,0 +1,212 @@
+    <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Persona AI</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background-color: #111214;
+            color: #FFFFFF;
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            box-sizing: border-box;
+        }
+        .header {
+            font-size: 22px;
+            font-weight: 600;
+            color: #E3E3E3;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #2F3133;
+            padding-bottom: 10px;
+        }
+        .container {
+            display: flex;
+            gap: 20px;
+            flex: 1;
+            height: calc(100% - 60px);
+        }
+        .sidebar {
+            width: 250px;
+            background-color: #1A1C1E;
+            border-radius: 16px;
+            padding: 20px;
+            border: 1px solid #2F3133;
+        }
+        .sidebar h3 { margin-top: 0; color: #00FF88; font-size: 16px; }
+        .radio-group {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: 15px;
+        }
+        .radio-label {
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .main-content {
+            flex: 1;
+            display: flex;
+            gap: 20px;
+        }
+        .video-box {
+            flex: 6;
+            background-color: #000000;
+            border-radius: 16px;
+            border: 2px solid #3C4043;
+            overflow: hidden;
+            position: relative;
+        }
+        video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .chat-panel {
+            flex: 4;
+            background-color: #1A1C1E;
+            border-radius: 16px;
+            border: 1px solid #2F3133;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+        }
+        .chat-history {
+            flex: 1;
+            overflow-y: auto;
+            margin-bottom: 15px;
+            padding-right: 5px;
+        }
+        .msg {
+            margin-bottom: 12px;
+            line-height: 1.4;
+        }
+        .user-msg { color: #00FF88; }
+        .ai-msg { color: #00E5FF; }
+        .input-area {
+            display: flex;
+            gap: 10px;
+        }
+        input[type="text"] {
+            flex: 1;
+            background-color: #2F3133;
+            border: 1px solid #3C4043;
+            border-radius: 8px;
+            padding: 12px;
+            color: #FFFFFF;
+            outline: none;
+        }
+        button {
+            background-color: #00FF88;
+            color: #111214;
+            border: none;
+            border-radius: 8px;
+            padding: 0 20px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        button:hover { background-color: #00D470; }
+    </style>
+</head>
+<body>
+
+    <div class="header">🤖 Persona AI</div>
+
+    <div class="container">
+        <div class="sidebar">
+            <h3>Configuration</h3>
+            <div class="radio-group">
+                <label class="radio-label">
+                    <input type="radio" name="persona" value="English Tutor" checked onclick="changePersona('tutor.mp4')"> English Tutor
+                </label>
+                <label class="radio-label">
+                    <input type="radio" name="persona" value="Admission Counselor" onclick="changePersona('counselor.mp4')"> Admission Counselor
+                </label>
+                <label class="radio-label">
+                    <input type="radio" name="persona" value="Medical Counselor" onclick="changePersona('medical.mp4')"> Medical Counselor
+                </label>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <div class="video-box">
+                <video id="avatar-video" autoplay loop muted playsinline>
+                    <source id="video-source" src="/static/tutor.mp4" type="video/mp4">
+                </video>
+            </div>
+
+            <div class="chat-panel">
+                <h4 style="margin: 0 0 10px 0; color: #E3E3E3;">In-Call Messages</h4>
+                <div class="chat-history" id="chat-history"></div>
+                <div class="input-area">
+                    <input type="text" id="user-input" placeholder="Type a message here..." onkeypress="handleKeyPress(event)">
+                    <button onclick="sendMessage()">Send</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Smoothly swap the 3D character video track instantly without refreshing the page
+        function changePersona(videoFile) {
+            const video = document.getElementById('avatar-video');
+            const source = document.getElementById('video-source');
+            
+            source.src = `/static/${videoFile}`;
+            video.load();
+            video.play();
+            
+            document.getElementById('chat-history').innerHTML = ''; // Clear chat for new expert
+        }
+
+        function handleKeyPress(event) {
+            if (event.key === 'Enter') sendMessage();
+        }
+
+        // Send query to Flask backend via modern AJAX asynchronous request
+        function sendMessage() {
+            const inputField = document.getElementById('user-input');
+            const message = inputField.value.trim();
+            if (!message) return;
+
+            const selectedPersona = document.querySelector('input[name="persona"]:checked').value;
+            const historyBox = document.getElementById('chat-history');
+
+            // 1. Instantly display user's text on screen
+            historyBox.innerHTML += `<div class="msg user-msg"><b>You:</b> ${message}</div>`;
+            inputField.value = '';
+            historyBox.scrollTop = historyBox.scrollHeight;
+
+            // Show a temporary loading text
+            const loadingId = "load-" + Date.now();
+            historyBox.innerHTML += `<div class="msg ai-msg" id="${loadingId}"><b>Persona AI:</b> Thinking...</div>`;
+
+            // 2. Network call to Flask backend API
+            fetch('/ask', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ message: message, persona: selectedPersona })
+            })
+            .then(res => res.json())
+            .then(data => {
+                document.getElementById(loadingId).remove(); // Remove loading state text
+                // 3. Print the final answer text flawlessly onto screen
+                historyBox.innerHTML += `<div class="msg ai-msg"><b>Persona AI:</b> ${data.reply}</div>`;
+                historyBox.scrollTop = historyBox.scrollHeight;
+            })
+            .catch(err => {
+                document.getElementById(loadingId).remove();
+                historyBox.innerHTML += `<div class="msg ai-msg" style="color:red;"><b>Error:</b> Could not reach local engine.</div>`;
+            });
+        }
+    </script>
+
+</body>
+</html>
